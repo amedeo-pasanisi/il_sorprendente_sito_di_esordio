@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import Experience from './Experience.jsx'
 import './index.css'
 import { Canvas } from '@react-three/fiber'
 
@@ -15,10 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       overflow: 'hidden',
       zIndex: -1
     }}>
-      <mesh scale={0.5} position={[0, -2, 0]}>
-        <sphereGeometry />
-        <meshNormalMaterial />
-      </mesh>
+      <Experience />
     </Canvas>
     <App />
   </React.StrictMode>,
