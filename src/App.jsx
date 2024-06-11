@@ -1,13 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './Home.jsx'
+import { Canvas } from '@react-three/fiber'
+import Experience from './Experience.jsx'
 
 function App() {
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <Canvas
+      eventPrefix="client"
+      eventSource={document.getElementById('root')}
+    >
+      <Experience />
+    </Canvas>
   )
 }
 
