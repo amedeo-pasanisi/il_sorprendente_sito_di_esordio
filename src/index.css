@@ -13,9 +13,11 @@
 
 #root {
   height: 100vh;
+  overflow: hidden;
 }
 
 .htmlContainer {
+  overflow: hidden;
   height: 100%;
   display: flex;
   flex-direction: column;
