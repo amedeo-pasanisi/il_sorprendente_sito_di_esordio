@@ -13,16 +13,6 @@ export default function Experience() {
     useEffect(() => {
         document.addEventListener('pointerenter', () => setIsPointerMoved(true))
         document.addEventListener('pointerleave', () => setIsPointerMoved(false))
-        document.addEventListener('touchstart', event => {
-            event.preventDefault()
-            setIsPointerMoved(true)},
-            {passive: false}
-        )
-        document.addEventListener('touchend', event => {
-            event.preventDefault()
-            setIsPointerMoved(false)},
-            {passive: false}
-        )
     }, [])
 
     useFrame(() => {
