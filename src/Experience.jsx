@@ -10,12 +10,19 @@ export default function Experience() {
     const api = useRef()
     const vec = new THREE.Vector3()
 
-    const handleMouseMove = () => {
-        setIsPointerMoved(true)
-        window.removeEventListener('pointermove', handleMouseMove)
-    }
     useEffect(() => {
-        window.addEventListener('pointermove', handleMouseMove)
+        document.addEventListener('pointerenter', () => setIsPointerMoved(true))
+        document.addEventListener('pointerleave', () => setIsPointerMoved(false))
+        document.addEventListener('touchstart', event => {
+            event.preventDefault()
+            setIsPointerMoved(true)},
+            {passive: false}
+        )
+        document.addEventListener('touchend', event => {
+            event.preventDefault()
+            setIsPointerMoved(false)},
+            {passive: false}
+        )
     }, [])
 
     useFrame(() => {
