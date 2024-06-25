@@ -27,7 +27,7 @@ export default function Experience() {
         <directionalLight position={[1, 1, 1]} intensity={5}/>
         <Physics timeStep="vary" gravity={[0, 0, 0]}>
             {isPointerMoved && <Pointer />}
-            <RigidBody linearDamping={4} angularDamping={1} friction={0.1} position={[1, 0, 1]} ref={api} colliders={false}>
+            <RigidBody linearDamping={4} angularDamping={1} friction={0.1} position={[1, 0, 1]} rotation={[0.5,-2,0]} ref={api} colliders={false}>
                 <BallCollider args={[0.5]} />
                 <mesh castShadow receiveShadow>
                     <sphereGeometry args={[0.5, 64, 64]} />
