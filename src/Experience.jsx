@@ -10,7 +10,12 @@ export default function Experience() {
     const api = useRef()
     const vec = new THREE.Vector3()
 
+    const handlePointerMoved = () => {
+        setIsPointerMoved(true)
+        document.removeEventListener('pointermove', handlePointerMoved)
+    }
     useEffect(() => {
+        document.addEventListener('pointermove', handlePointerMoved)
         document.addEventListener('pointerenter', () => setIsPointerMoved(true))
         document.addEventListener('pointerleave', () => setIsPointerMoved(false))
     }, [])
@@ -30,7 +35,7 @@ export default function Experience() {
             <RigidBody linearDamping={4} angularDamping={1} friction={0.1} position={[1, 0, 1]} rotation={[0.5,-2,0]} ref={api} colliders={false}>
                 <BallCollider args={[0.5]} />
                 <mesh castShadow receiveShadow>
-                    <sphereGeometry args={[0.5, 64, 64]} />
+                    <sphereGeometry args={[0.5, 50, 50]} />
                     <meshStandardMaterial {...texture} />
                 </mesh>
             </RigidBody>
@@ -48,8 +53,8 @@ function Pointer({ vec = new THREE.Vector3() }) {
     })
     
     return (
-        <RigidBody position={[20,20,20]} type="kinematicPosition" colliders={false} ref={ref}>
-            <BallCollider args={[0.1]} />
+        <RigidBody position={[20, 20, 20]} type="kinematicPosition" colliders={false} ref={ref}>
+            <BallCollider args={[0.1]}/>
         </RigidBody>
     )
 }
