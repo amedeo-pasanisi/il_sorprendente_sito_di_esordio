@@ -6,13 +6,55 @@ import { Environment, useTexture, Text, MeshTransmissionMaterial, Float } from '
 import { useControls } from 'leva'
 import Pointer from './components/Pointer'
 
+const range = 2
+const dampingFactor = 0.98
+const generateRandomPoint = () => {
+    return new THREE.Vector3(
+        (Math.random() - 0.5) * 2 * range,
+        (Math.random() - 0.5) * 2 * range,
+        (Math.random() - 0.5) * 2 * range
+    );
+};
+const closeEnoughDistance = 1
+const maxImpulseStrength = 0.005
+
 const Experience = () => {
     const [isPointerMoved, setIsPointerMoved] = useState(false)
+    const [target, setTarget] = useState(new THREE.Vector3(
+        (Math.random() - 0.5) * 2 * range,
+        (Math.random() - 0.5) * 2 * range,
+        (Math.random() - 0.5) * 2 * range
+    ))
+    const blob = useRef()
+    const moveTowardsTarget = () => {
+        if (!blob.current) return
+        const currentPos = new THREE.Vector3(
+            blob.current.translation().x,
+            blob.current.translation().y,
+            blob.current.translation().z
+        )
+        const direction = new THREE.Vector3()
+            .copy(target)
+            .sub(currentPos)
+            .normalize()
+        const distanceToTarget = currentPos.distanceTo(target)
+        if (distanceToTarget < closeEnoughDistance) {
+            setTarget(generateRandomPoint());
+        }
+        const impulseStrength = Math.min(maxImpulseStrength, distanceToTarget * maxImpulseStrength);
+        const impulse = direction.multiplyScalar(impulseStrength);
+        blob.current.applyImpulse(impulse);
+        const velocity = new THREE.Vector3(
+            blob.current.linvel().x,
+            blob.current.linvel().y,
+            blob.current.linvel().z
+        )
+        blob.current.setLinvel(velocity.multiplyScalar(dampingFactor))
+    };
+
     const texture = useTexture({map:'heart_day_color_map.jpg', roughnessMap: 'heart_specular_map.jpg'})
     const api = useRef()
-    const glass = useRef()
     const vec = new THREE.Vector3()
-    const vec2 = new THREE.Vector3()
 
     const handlePointerMoved = () => {
         setIsPointerMoved(true)
@@ -24,13 +66,15 @@ const Experience = () => {
         document.addEventListener('pointerleave', () => setIsPointerMoved(false))
     }, [])
 
-    const materialDebug = useControls({
+    const blobDebug = useControls({
         thickness: { value: 0.7, min: 0, max: 3, step: 0.05 },
         roughness: { value: 0, min: 0, max: 1, step: 0.1 },
         transmission: {value: 1, min: 0, max: 1, step: 0.1},
         ior: { value: 1.2, min: 0, max: 3, step: 0.1 },
         chromaticAberration: { value: 0.05, min: 0, max: 1},
-        backside: { value: true},
+        backside: { value: false},
+        envMapIntensity: 100,
+        blobMultiplyScalar: 0.10,
     })
     const phisicsDebug = useControls({
         multiplyScalar: { value: 0.1, min: 0, max: 3, step: 0.05 },
@@ -46,10 +90,7 @@ const Experience = () => {
             applyImpulse(vec.copy(api.current.translation()).
             negate().
             multiplyScalar(phisicsDebug.multiplyScalar))
-        glass.current?.
-            applyImpulse(vec2.copy(glass.current.translation()).
-            negate().
-            multiplyScalar(phisicsDebug.multiplyScalar))
+        moveTowardsTarget()
     })
     
     return <>
@@ -73,15 +114,8 @@ const Experience = () => {
                     <meshStandardMaterial envMapIntensity={0} {...texture} />
                 </mesh>
             </RigidBody>
-            <Float
-                speed={5} // Animation speed, defaults to 1
-                rotationIntensity={5} // XYZ rotation intensity, defaults to 1
-                floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-                floatingRange={[-1, 1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-            >
-            </Float>
             <RigidBody
-                ref={glass}
+                ref={blob}
                 colliders={false}
                 friction={phisicsDebug.friction}
                 position={[-1, 0, 3]}
@@ -90,30 +124,31 @@ const Experience = () => {
                 <mesh>
                     <sphereGeometry args={[0.4, 50, 50]} />
                     <MeshTransmissionMaterial
-                        envMapIntensity={phisicsDebug.envMap}
-                        {...materialDebug}
+                        {...blobDebug}
                         background={new THREE.Color('white')}
                     />
                 </mesh>
             </RigidBody>
         </Physics>
-        <Text
-            color='black'
-            maxWidth={7}
-            textAlign='center'
-            font='/Ingeborg-BoldItalic.woff'
-        >
-            Il sorprendente sito di esordio di
-        </Text>
-        <Text
-            position={[textDebug.positionA.y, textDebug.positionA.x, 0]}
-            color='black'
-            maxWidth={7}
-            textAlign='center'
-            font='/Ingeborg-BoldItalic.woff'
-        >
-            Amedeo
-        </Text>
+        <group position={[0, 0.5, 0]}>
+            <Text
+                color='black'
+                maxWidth={7}
+                textAlign='center'
+                font='/Ingeborg-BoldItalic.woff'
+            >
+                Il sorprendente sito di esordio di
+            </Text>
+            <Text
+                position={[textDebug.positionA.y, textDebug.positionA.x, 0]}
+                color='black'
+                maxWidth={7}
+                textAlign='center'
+                font='/Ingeborg-BoldItalic.woff'
+            >
+                Amedeo
+            </Text>
+        </group>
     </>
 }
 
