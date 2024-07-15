@@ -18,10 +18,6 @@ const Experience = () => {
         document.addEventListener('pointerenter', () => setIsPointerMoved(true))
         document.addEventListener('pointerleave', () => setIsPointerMoved(false))
     }, [])
-
-    const textDebug = useControls({
-        positionA: {value: {x: -2.3, y: 0}}
-    })
     
     return <>
         <Environment preset='night' />

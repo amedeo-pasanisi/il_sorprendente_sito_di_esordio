@@ -3,7 +3,6 @@ import { useThree } from "@react-three/fiber"
 
 const Title = () => {
     const { viewport } = useThree()
-    console.log(viewport.width)
 
     return <group position={[0, 0.5, 0]}>
         <Text
