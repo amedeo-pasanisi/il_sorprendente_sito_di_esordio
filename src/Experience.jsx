@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Physics } from '@react-three/rapier'
 import { Environment } from '@react-three/drei'
-import { useControls } from 'leva'
 import Pointer from './components/Pointer'
 import Blob from './components/Blob'
 import Globe from './components/Globe'
