@@ -16,7 +16,6 @@ const Pointer = ({ vec = new THREE.Vector3() }) => {
     return (
         <RigidBody position={[20, 20, 20]} type="kinematicPosition" colliders={false} ref={pointerRef}>
             <BallCollider args={[0.1]}/>
-            <mesh><sphereGeometry args={[0.1]}/></mesh>
         </RigidBody>
     )
 }
