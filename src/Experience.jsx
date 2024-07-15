@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Physics } from '@react-three/rapier'
-import { Environment, Text } from '@react-three/drei'
+import { Environment } from '@react-three/drei'
 import { useControls } from 'leva'
 import Pointer from './components/Pointer'
 import Blob from './components/Blob'
 import Globe from './components/Globe'
+import Title from './components/Title'
 
 const Experience = () => {
     const [isPointerMoved, setIsPointerMoved] = useState(false)
@@ -31,25 +32,7 @@ const Experience = () => {
             <Globe />
             <Blob />
         </Physics>
-        <group position={[0, 0.5, 0]}>
-            <Text
-                color='black'
-                maxWidth={7}
-                textAlign='center'
-                font='/Ingeborg-BoldItalic.woff'
-            >
-                Il sorprendente sito di esordio di
-            </Text>
-            <Text
-                position={[textDebug.positionA.y, textDebug.positionA.x, 0]}
-                color='black'
-                maxWidth={7}
-                textAlign='center'
-                font='/Ingeborg-BoldItalic.woff'
-            >
-                Amedeo
-            </Text>
-        </group>
+        <Title />
     </>
 }
 
