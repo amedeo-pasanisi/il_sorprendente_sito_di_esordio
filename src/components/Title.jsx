@@ -13,7 +13,7 @@ const Title = () => {
             fontSize={viewport.width > 9 ? 1 : 0.4}
             maxWidth={viewport.width / 2}
         >
-            Il sorprendente sito di esordio di Amedeo
+            Il sorprendente sito di esordio de
         </Text>
     </group>
 }
