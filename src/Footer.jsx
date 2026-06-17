@@ -4,6 +4,6 @@ import { Link } from "react-router-dom"
 export default function Footer() {
     return  <footer>
         <span>Made by Amedeo Pasanisi</span>
-        <Link to="www.linkedin.com/in/amedeopasanisi1997" target="_blank"><img src="./icons8-linkedin.svg" alt="" /></Link>
+        <Link to="https://www.linkedin.com/in/amedeopasanisi1997" target="_blank"><img src="./icons8-linkedin.svg" alt="" /></Link>
     </footer>
 }
